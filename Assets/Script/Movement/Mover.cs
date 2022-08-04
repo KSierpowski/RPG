@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; 
+using UnityEngine.AI;
+using RPG.Combat;
 namespace RPG.Movement
+
 {
     public class Mover : MonoBehaviour
     {
@@ -10,16 +12,24 @@ namespace RPG.Movement
 
         NavMeshAgent player;
 
+
+        private void Start()
+        {
+            player = GetComponent<NavMeshAgent>();
+        }
         void Update()
         {
 
             UpdateAnimation();
 
         }
-        private void Start()
+
+        public void StartMoveAction(Vector3 destination)
         {
-            player = GetComponent<NavMeshAgent>();
+            GetComponent<Fighter>().Cancel();
+            MoveTo(destination);
         }
+
 
         public void MoveTo(Vector3 destination)
         {
