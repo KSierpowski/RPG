@@ -11,6 +11,11 @@ public class Health : MonoBehaviour
 
         public bool isDead = false;
 
+        public bool IsDead()
+        {
+            return isDead;
+        }
+
         public void TakeDamage(float damage)
         {
         hP = Mathf.Max(hP- damage, 0);
