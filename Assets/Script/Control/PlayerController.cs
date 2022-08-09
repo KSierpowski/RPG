@@ -25,7 +25,10 @@ namespace RPG.Control
             {
                 CombatTarget target = hit.collider.GetComponent<CombatTarget>();
 
-                if (!GetComponent<Fighter>().CanAttack(target))
+                if (target == null) continue;
+
+                
+                if (!GetComponent<Fighter>().CanAttack(target.gameObject))
                 {
                     continue;
                 }
@@ -34,7 +37,7 @@ namespace RPG.Control
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
                 return true;
             }
