@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Combat;
 using RPG.Core;
+using RPG.Movement;
+
 namespace RPG.Control
 {
     public class AIController : MonoBehaviour
@@ -13,12 +15,18 @@ namespace RPG.Control
         Fighter fighter;
         GameObject player;
         Health health;
+        Mover mover;
+
+        Vector3 guardLocation;
 
         private void Start()
         {
             fighter = GetComponent<Fighter>();
             player = GameObject.FindWithTag("Player");
             health = GetComponent<Health>();
+            mover = GetComponent<Mover>();
+
+            guardLocation = transform.position;
         }   
 
         private void Update()
@@ -30,11 +38,14 @@ namespace RPG.Control
             }
             else
             {
-                fighter.Cancel();
+                mover.StartMoveAction(guardLocation);
             }
+
         }
 
-        private bool InAttackRange()
+  
+
+            private bool InAttackRange()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             return distanceToPlayer < chaseDistance;
