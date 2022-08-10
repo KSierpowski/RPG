@@ -11,6 +11,7 @@ namespace RPG.Control
     {
 
         [SerializeField] float chaseDistance = 5f;
+        [SerializeField] float suspicionTime = 3f;
 
         Fighter fighter;
         GameObject player;
@@ -18,7 +19,7 @@ namespace RPG.Control
         Mover mover;
 
         Vector3 guardLocation;
-
+        float timeSinceLastSawPlayer = Mathf.Infinity;
         private void Start()
         {
             fighter = GetComponent<Fighter>();
@@ -34,18 +35,37 @@ namespace RPG.Control
             if (health.IsDead()) return;
             if (InAttackRange() && fighter.CanAttack(player))
             {
-                fighter.Attack(player);
+                timeSinceLastSawPlayer = 0;
+                AttackBehaviour();
+            }
+            else if (timeSinceLastSawPlayer < suspicionTime)
+            {
+                SuspicionBehaviour();
             }
             else
             {
-                mover.StartMoveAction(guardLocation);
+                GuardBehaviour();
             }
-
+            timeSinceLastSawPlayer += Time.deltaTime;
         }
 
-  
+        private void GuardBehaviour()
+        {
+            mover.StartMoveAction(guardLocation);
+        }
 
-            private bool InAttackRange()
+        private void SuspicionBehaviour()
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        private void AttackBehaviour()
+        {
+            fighter.Attack(player);
+        }
+
+
+        private bool InAttackRange()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             return distanceToPlayer < chaseDistance;
