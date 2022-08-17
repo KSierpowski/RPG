@@ -33,7 +33,7 @@ namespace RPG.Combat
             {
                 GetComponent<Mover>().Cancel();
                 AttackBehaviour();
-                
+
             }
         }
 
@@ -59,7 +59,7 @@ namespace RPG.Combat
         //Animation Event
         void Hit()
         {
-            if (target == null) return; 
+            if (target == null) return;
             target.TakeDamage(weaponDamage);
         }
         private bool GetIsInRange()

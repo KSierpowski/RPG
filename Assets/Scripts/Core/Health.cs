@@ -35,10 +35,11 @@ namespace RPG.Core
             GetComponent<Animator>().SetTrigger("die");
 
             GetComponent<ActionScheduler>().CancelCurrentAction();
-            
+
         }
 
 
 
     }
 }
+

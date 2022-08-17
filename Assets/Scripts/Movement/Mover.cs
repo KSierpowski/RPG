@@ -17,7 +17,7 @@ namespace RPG.Movement
         private void Start()
         {
             player = GetComponent<NavMeshAgent>();
-            health = GetComponent<Health>();    
+            health = GetComponent<Health>();
         }
         void Update()
         {
@@ -54,7 +54,6 @@ namespace RPG.Movement
         }
     }
 }
-       
 
-       
+
 

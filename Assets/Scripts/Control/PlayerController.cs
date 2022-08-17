@@ -21,7 +21,7 @@ namespace RPG.Control
         {
             if (health.IsDead()) return;
             if (InteractWithCombat()) return;
-            if ( InteractWithMovement() ) return;
+            if (InteractWithMovement()) return;
             Debug.Log("Nothing");
         }
 
@@ -34,7 +34,7 @@ namespace RPG.Control
 
                 if (target == null) continue;
 
-                
+
                 if (!GetComponent<Fighter>().CanAttack(target.gameObject))
                 {
                     continue;
