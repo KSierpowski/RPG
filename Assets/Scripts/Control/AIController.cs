@@ -23,6 +23,8 @@ namespace RPG.Control
 
         Vector3 guardLocation;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        int currentWaypointIndex = 0;
+
         private void Start()
         {
             fighter = GetComponent<Fighter>();
@@ -56,7 +58,7 @@ namespace RPG.Control
         {
             Vector3 nextPosition = guardLocation;
 
-            if(patrolPath != null)
+            if (patrolPath != null)
             {
                 if (AtWaypoint())
                 {
@@ -68,20 +70,20 @@ namespace RPG.Control
             mover.StartMoveAction(nextPosition);
         }
 
-        private Vector3 GetCurrentWaypoint()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CycleWaypoint()
-        {
-            throw new NotImplementedException();
-        }
-
         private bool AtWaypoint()
         {
             float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < waypointTolerance;
+        }
+
+        private void CycleWaypoint()
+        {
+            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
+        }
+
+        private Vector3 GetCurrentWaypoint()
+        {
+            return patrolPath.GetWaypoint(currentWaypointIndex);
         }
 
         private void SuspicionBehaviour()
