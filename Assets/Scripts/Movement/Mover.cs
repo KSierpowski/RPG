@@ -10,44 +10,46 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] Transform target;
+        [SerializeField] float maxSpeed = 6f;
 
-        NavMeshAgent player;
+        NavMeshAgent navMeshAgent;
         Health health;
 
         private void Start()
         {
-            player = GetComponent<NavMeshAgent>();
+            navMeshAgent = GetComponent<NavMeshAgent>();
             health = GetComponent<Health>();
         }
         void Update()
         {
-            player.enabled = !health.IsDead();
+            navMeshAgent.enabled = !health.IsDead();
             UpdateAnimation();
 
         }
 
-        public void StartMoveAction(Vector3 destination)
+        public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
 
-        public void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination, float speedFraction)
         {
-            player.destination = destination;
-            player.isStopped = false;
+            navMeshAgent.destination = destination;
+            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
+            navMeshAgent.isStopped = false;
         }
 
         public void Cancel()
         {
-            player.isStopped = true;
+            navMeshAgent.isStopped = true;
         }
 
 
         public void UpdateAnimation()
         {
-            Vector3 velocity = player.velocity;
+            Vector3 velocity = navMeshAgent.velocity;
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
