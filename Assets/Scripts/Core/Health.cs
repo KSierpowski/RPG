@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Saving;
 namespace RPG.Core
 {
 
 
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField] float hP = 100f;
 
@@ -38,8 +39,20 @@ namespace RPG.Core
 
         }
 
+        public object CaptureState()
+        {
+            return hP;
+        }
 
+        public void RestoreState(object state)
+        {
+            hP = (float)state;
+            if (hP == 0)
+            {
+                Die();
 
+            }
+        }
     }
 }
 
