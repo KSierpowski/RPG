@@ -15,14 +15,23 @@ namespace RPG.SceneManagement
 
         }
 
-
-       public IEnumerator FadeOut(float time)
+        public void FadeOutImmediate()
         {
-            while (canvasGroup.alpha < 1)
+            canvasGroup.alpha = 1;
+        }
+
+        public IEnumerator FadeOut(float time)
+        {
+            if (canvasGroup != null)
             {
-                canvasGroup.alpha += Time.deltaTime / time;
-                yield return null;
-            }
+
+            
+                while (canvasGroup.alpha < 1)
+                {
+                    canvasGroup.alpha += Time.deltaTime / time;
+                    yield return null;
+                }
+        }
         }
 
         public  IEnumerator FadeIn(float time)

@@ -22,6 +22,8 @@ namespace RPG.SceneManagement
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeWaitTime = 0.5f;
 
+
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "Player")
@@ -52,6 +54,8 @@ namespace RPG.SceneManagement
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+
+            FindObjectOfType<SavingWrapper>().Save();
 
             yield return new WaitForSeconds(fadeOutTime);
             yield return fader.FadeIn(fadeInTime);
