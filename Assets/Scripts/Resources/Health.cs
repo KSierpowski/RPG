@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Saving;
-namespace RPG.Core
+using RPG.Stats;
+using RPG.Core;
+
+namespace RPG.Resources
 {
 
 
@@ -11,6 +14,12 @@ namespace RPG.Core
         [SerializeField] float hP = 100f;
 
         public bool isDead = false;
+
+        private void Start()
+        {
+            hP = GetComponent<BaseStats>().GetHealth();
+        }
+
 
         public bool IsDead()
         {
