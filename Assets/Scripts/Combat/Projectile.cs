@@ -27,16 +27,12 @@ namespace RPG.Combat
         void Update()
         {
             if (target == null) return;
-            if (isHoming)
+            if (isHoming && !target.IsDead())
             {
-                if (!target.IsDead())
-                {
-                    transform.LookAt(GetAimLocation());
-                }
+                transform.LookAt(GetAimLocation());
             }
-
-
             transform.Translate(Vector3.forward * arrowSpeed * Time.deltaTime);
+
         }
 
         public void SetTarget(Health target, float damage)
