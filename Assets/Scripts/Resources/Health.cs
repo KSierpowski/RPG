@@ -4,6 +4,7 @@ using UnityEngine;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
+using System;
 
 namespace RPG.Resources
 {
@@ -26,14 +27,24 @@ namespace RPG.Resources
             return isDead;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
             hP = Mathf.Max(hP - damage, 0);
             if (hP == 0)
             {
                 Die();
-
+                AwardExperience(instigator);
             }
+        }
+
+        private void AwardExperience(GameObject instigator)
+        {
+            Experience experience = instigator.GetComponent<Experience>();
+            if (experience != null)
+            {
+                experience.GainExperience(GetComponent<BaseStats>().GetExperienceReward());
+            }
+            else return;
         }
 
         public float GetPercentage()
