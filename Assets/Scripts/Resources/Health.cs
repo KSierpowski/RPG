@@ -41,6 +41,8 @@ namespace RPG.Resources
 
         public void TakeDamage(GameObject instigator, float damage)
         {
+            print(gameObject.name + "took damage: "+ damage);
+
             hP = Mathf.Max(hP - damage, 0);
             if (hP == 0)
             {
@@ -48,6 +50,17 @@ namespace RPG.Resources
                 AwardExperience(instigator);
             }
         }
+
+        public float GetHP()
+        {
+            return hP;
+        }
+
+        public float GetMaxHP()
+        {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
+
 
         private void AwardExperience(GameObject instigator)
         {
