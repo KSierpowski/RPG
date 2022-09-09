@@ -9,15 +9,18 @@ using System;
 namespace RPG.Resources
 {
 
-
     public class Health : MonoBehaviour, ISaveable
     {
+        [SerializeField] float regenerationPercentage = 70;
+
         float hP = -1f;
 
         public bool isDead = false;
 
         private void Start()
         {
+            GetComponent<BaseStats>().onlevelUp += RegenerateHealth;
+
             if(hP < 0f)
             {
                 hP = GetComponent<BaseStats>().GetStat(Stat.Health);
@@ -25,6 +28,11 @@ namespace RPG.Resources
             
         }
 
+        private void RegenerateHealth()
+        {
+            float regenHealthPoints = GetComponent<BaseStats>().GetStat(Stat.Health) * (regenerationPercentage/100);
+            hP = Mathf.Max(hP, regenHealthPoints);
+        }
 
         public bool IsDead()
         {
