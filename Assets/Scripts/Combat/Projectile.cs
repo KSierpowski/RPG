@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat
 {
@@ -15,6 +16,7 @@ namespace RPG.Combat
         [SerializeField] float maxLifeTime = 10f;
         [SerializeField] GameObject[] destroyOnHit = null;
         [SerializeField] float lifeAfterImpact = 2f;
+        [SerializeField] UnityEvent projectileHit;
 
         Health target = null;
         GameObject instigator = null;
@@ -57,11 +59,13 @@ namespace RPG.Combat
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return;
             target.TakeDamage(instigator,damage);
+            projectileHit.Invoke();
 
             arrowSpeed = 0;
 
             if (hitEffect != null)
             {
+                
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
 
